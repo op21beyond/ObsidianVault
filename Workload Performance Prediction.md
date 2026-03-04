@@ -1259,3 +1259,278 @@ final fingerprint =
 
 이 3개 때문에 많은 연구가 실패합니다.  
 해결 방법도 같이 설명해 드릴 수 있습니다.
+
+
+*fingerprint 를 얻은 후 성능 예측 모델을 학습할 만큼 충분한 데이터가 없는 상태같아.
+워크로드 30개정도, 플랫폼은 CPU 종류는 5가지 밖에 없어.
+이걸로 Random Forest 같은 모델을 학습시킬 수 있을까?
+어렵다면 다른 성능예측방안이 있을까?*
+
+결론부터 말하면 30 workloads × 5 CPUs = 150 samples로
+Random Forest 같은 일반 ML 모델을 학습하는 것은 가능은 하지만 신뢰도는 낮을 가능성이 큽니다. 이유는 다음 두 가지입니다.
+
+feature 차원: fingerprint (예: 256) + CPU feature (예: 6~10)
+
+데이터 수: 150
+
+즉
+
+sample << feature dimension
+
+상황이라 overfitting이 매우 쉽게 발생합니다.
+
+하지만 CPU 성능 예측에서는 데이터가 적을 때 쓰는 다른 접근법들이 있습니다. 실제 아키텍처 연구에서도 이런 상황이 흔합니다.
+
+아래 순서로 설명하겠습니다.
+
+1️⃣ Random Forest 가능성
+2️⃣ 작은 데이터에서 가장 안정적인 방법
+3️⃣ CPU 연구에서 많이 쓰는 방법
+4️⃣ 지금 상황에서 가장 추천하는 방법
+
+1️⃣ Random Forest 가능할까?
+
+가능은 합니다.
+
+하지만 조건이 필요합니다.
+
+fingerprint 차원 축소
+
+예
+
+256 → 10~20
+
+PCA 또는 feature selection.
+
+예
+
+from sklearn.decomposition import PCA
+
+pca2 = PCA(n_components=15)
+X_reduced = pca2.fit_transform(fingerprints)
+
+그 다음
+
+input = [fingerprint_reduced , cpu_features]
+
+Random Forest
+
+RandomForestRegressor(
+    n_estimators=100,
+    max_depth=5
+)
+
+그리고 반드시
+
+leave-one-workload-out cross validation
+
+을 해야 합니다.
+
+하지만 여전히 variance가 큽니다.
+
+2️⃣ 작은 데이터에서 가장 안정적인 방법
+
+CPU 성능 예측에서 데이터가 적으면 보통 Linear model + regularization을 씁니다.
+
+Ridge regression
+from sklearn.linear_model import Ridge
+
+model = Ridge(alpha=1.0)
+model.fit(X,y)
+
+장점
+
+overfitting 적음
+
+작은 데이터에 안정적
+
+해석 가능
+
+실제로 많은 architecture ML 논문이 Ridge/Lasso를 씁니다.
+
+3️⃣ CPU 연구에서 많이 쓰는 방법
+
+데이터가 적으면 보통 two-stage model을 씁니다.
+
+아이디어:
+
+workload fingerprint
+→ workload embedding
+
+그리고
+
+CPU scaling factor
+
+를 따로 모델링합니다.
+
+예
+
+성능 모델
+
+IPC(w,c) = base_IPC(w) × scaling(c,w)
+
+여기서
+
+base_IPC(w)
+
+은 reference CPU에서 측정.
+
+그리고
+
+scaling(c,w)
+
+만 예측합니다.
+
+이렇게 하면 학습 데이터가 훨씬 안정됩니다.
+
+4️⃣ 또 하나 매우 좋은 방법 (CPU 연구에서 자주 씀)
+
+Similarity-based prediction
+
+즉 ML 모델을 학습하지 않습니다.
+
+아이디어:
+
+새 workload fingerprint
+→ 가장 비슷한 workload 찾기
+→ 그 workload의 CPU scaling 사용
+
+예
+
+similarity = cosine_similarity(new_fp, train_fp)
+
+가장 비슷한 workload 3개 선택
+
+top-k nearest workloads
+
+그들의 성능 평균
+
+predicted IPC
+
+이 방법은
+
+데이터 적을 때 매우 강함
+
+실제 architecture research에서 많이 씀
+
+5️⃣ 또 하나 강력한 방법 (제가 개인적으로 가장 추천)
+
+matrix completion / collaborative filtering
+
+데이터 구조가 사실
+
+            CPU1 CPU2 CPU3 CPU4 CPU5
+workload1
+workload2
+...
+workload30
+
+즉
+
+30 × 5 performance matrix
+
+입니다.
+
+이건 ML 문제가 아니라 사실
+
+matrix factorization
+
+문제입니다.
+
+예
+
+performance ≈ workload_embedding × cpu_embedding
+
+이 방법은 데이터가 매우 적을 때 강합니다.
+
+python 예
+
+from sklearn.decomposition import TruncatedSVD
+
+svd = TruncatedSVD(n_components=3)
+
+W = svd.fit_transform(perf_matrix)
+C = svd.components_
+
+이걸로
+
+새 workload
+새 CPU
+
+예측 가능합니다.
+
+6️⃣ 지금 상황에서 가장 추천하는 방법
+
+현재 데이터
+
+workloads = 30
+CPUs = 5
+
+이면 저는 아래 방법을 추천합니다.
+
+Step 1
+fingerprint similarity
+Step 2
+KNN regression
+
+예
+
+from sklearn.neighbors import KNeighborsRegressor
+
+model = KNeighborsRegressor(n_neighbors=5)
+
+input
+
+fingerprint + cpu_features
+
+이 방법은
+
+데이터 적어도 잘 동작
+
+overfitting 적음
+
+해석 쉬움
+
+7️⃣ 실제로 가장 좋은 방법 (아키텍처 연구에서 많이 씀)
+
+사실 이 문제에서는 ML보다 더 좋은 방법이 있습니다.
+
+fingerprint → mixture weight
+
+즉
+
+새 workload = 기존 workload들의 mixture
+
+예
+
+Wnew ≈ 0.2 W1 + 0.5 W7 + 0.3 W12
+
+그러면
+
+IPC(new, CPU) =
+0.2 IPC(W1,CPU) +
+0.5 IPC(W7,CPU) +
+0.3 IPC(W12,CPU)
+
+이 방법은
+
+workload scaling prediction
+
+에서 매우 강합니다.
+
+⭐ 제 생각에 지금 데이터에서 최선
+
+추천 순서
+
+1️⃣ fingerprint similarity + KNN prediction
+2️⃣ Ridge regression
+3️⃣ matrix factorization
+
+Random Forest는 마지막 선택입니다.
+
+원하시면 제가 다음을 설명해 드릴게요.
+이건 지금 문제에서 아마 가장 중요한 부분입니다.
+
+“CPU 성능 예측에서 fingerprint dimension을 어떻게 정해야 하는가”
+
+이걸 잘못하면 150 데이터로도 망하고, 잘하면 매우 잘 맞습니다.
