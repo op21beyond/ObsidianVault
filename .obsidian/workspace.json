@@ -4,61 +4,151 @@
     "type": "split",
     "children": [
       {
-        "id": "dd32efe09a632dd4",
+        "id": "e1514c6f27555ff6",
         "type": "tabs",
         "children": [
           {
-            "id": "1ad978a58dbf0621",
+            "id": "10b08880b45dfef1",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "TODO.md",
+                "file": "NPU_AutoVerify.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "TODO"
+              "title": "NPU_AutoVerify"
             }
           },
           {
-            "id": "369d90689d93018e",
-            "type": "leaf",
-            "state": {
-              "type": "release-notes",
-              "state": {
-                "currentVersion": "1.11.7"
-              },
-              "icon": "lucide-book-up",
-              "title": "Release Notes 1.11.7"
-            }
-          },
-          {
-            "id": "51682278ca035895",
+            "id": "79dca0e38e6b1f3a",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Keys.md",
+                "file": "Checklist - Claude.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Keys"
+              "title": "Checklist - Claude"
             }
           },
           {
-            "id": "ef4cf8d8c632c010",
+            "id": "a6a1e7a89d758554",
             "type": "leaf",
             "state": {
-              "type": "empty",
-              "state": {},
+              "type": "markdown",
+              "state": {
+                "file": "TV AI 가속기 칩 CPU 선정 - Grok.md",
+                "mode": "source",
+                "source": false
+              },
               "icon": "lucide-file",
-              "title": "새 탭"
+              "title": "TV AI 가속기 칩 CPU 선정 - Grok"
+            }
+          },
+          {
+            "id": "2d8aea427d97fc76",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "TV AI 가속기 칩 CPU 선정 - ChatGPT.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "TV AI 가속기 칩 CPU 선정 - ChatGPT"
+            }
+          },
+          {
+            "id": "96459adce04d96c2",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "TV AI 가속기 칩 CPU 선정 - Claude.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "TV AI 가속기 칩 CPU 선정 - Claude"
+            }
+          },
+          {
+            "id": "f1b4c2b7c0c20bdb",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "TV AI 가속기 칩 CPU 선정 - Gemini.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "TV AI 가속기 칩 CPU 선정 - Gemini"
+            }
+          },
+          {
+            "id": "7f85dbd0881e2643",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "TV AI 가속기 칩 CPU 선정 - ChatGPT 최종.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "TV AI 가속기 칩 CPU 선정 - ChatGPT 최종"
+            }
+          },
+          {
+            "id": "bef3bcefe31a6e78",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "TV AI 가속기 칩 CPU 선정 - Claude 최종.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "TV AI 가속기 칩 CPU 선정 - Claude 최종"
+            }
+          },
+          {
+            "id": "2b8ca027995ae47f",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "Checklist - ChatGPT.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "Checklist - ChatGPT"
+            }
+          },
+          {
+            "id": "cb6657a5482f3080",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "Checklist - Claude.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "Checklist - Claude"
             }
           }
         ],
-        "currentTab": 3
+        "currentTab": 8
       }
     ],
     "direction": "vertical"
@@ -115,7 +205,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 300
+    "width": 367.5
   },
   "right": {
     "id": "c7c2d7db2d5115ea",
@@ -218,15 +308,34 @@
       "bases:새 베이스 생성하기": false
     }
   },
-  "active": "941fe0d70d7421ef",
+  "active": "2b8ca027995ae47f",
   "lastOpenFiles": [
+    "Checklist - Claude.md",
+    "Checklist - ChatGPT.md",
+    "TV AI 가속기 칩 CPU 선정 - Grok.md",
+    "TV AI 가속기 칩 CPU 선정 - Claude 최종.md",
+    "TV AI 가속기 칩 CPU 선정 - Claude.md",
+    "TV AI 가속기 칩 CPU 선정 - ChatGPT 최종.md",
+    "TV AI 가속기 칩 CPU 선정 - ChatGPT.md",
+    "TV AI 가속기 칩 CPU 선정 - Gemini.md",
+    "RealWorkloadProblem2.md",
+    "NPU_AutoVerify.md",
+    "무제",
+    "RealWorkloadProblem5.md",
+    "RealWorkloadProblem4.md",
+    "RealWorkloadProblem3.md",
+    "axi4_perf_wrapper.md",
+    "Rank Interleaving.md",
+    "Verification Automation.md",
+    "Keys.md",
+    "MOE.png",
+    "RealWorkloadProblem.md",
+    "Workload Performance Prediction.md",
     "NPU 검증 자동화 에이전트 개발 과제/@Gemini.md",
     "NPU 검증 자동화 에이전트 개발 과제/@Cursor.md",
     "NPU 검증 자동화 에이전트 개발 과제/@ChatGPT.md",
-    "Workload Performance Prediction.md",
     "accelerator chip riscv management.md",
     "NPU 검증 자동화 에이전트 개발 과제",
-    "Keys.md",
     "System Checklist.md",
     "TODO.md",
     "SRAM.md"
